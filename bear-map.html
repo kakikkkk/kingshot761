@@ -1,219 +1,200 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d131b">
-<meta name="description" content="K761 CAT 聯盟熊陷阱配置圖：成員、旗子、熊陷阱與聯盟資源點。">
-<title>K761 CAT｜熊陷阱配置圖</title>
+<meta name="theme-color" content="#101923">
+<title>CAT 雙熊配置圖｜K761</title>
+<meta name="description" content="CAT 聯盟熊陷阱配置圖：成員、十二面旗子、兩座熊陷阱與周圍資源礦。點選成員即可查看及複製座標。">
 <style>
-:root{color-scheme:dark;--bg:#0d131b;--panel:#16212d;--panel2:#1a2938;--border:#344559;--text:#f1f5f9;--muted:#a3b2c4;--gold:#eec879}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif}
-body{min-width:300px}
-button,input{font:inherit}
-a{color:inherit;text-decoration:none}
-header{padding:15px max(14px,env(safe-area-inset-right)) 12px max(14px,env(safe-area-inset-left));max-width:1200px;margin:auto}
-.back{font-size:12px;color:#cbd5e1;display:inline-flex;align-items:center;gap:5px;padding:5px 0}
-.eyebrow{font-size:10px;color:var(--gold);font-weight:750;letter-spacing:1.8px;margin-top:9px}
-h1{font-size:clamp(24px,5.4vw,34px);margin:4px 0 7px;font-weight:800;letter-spacing:.4px}
-.subline{font-size:12px;color:var(--muted);line-height:1.5}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:14px 0 8px}
-.pills{display:flex;gap:7px}
-.viewbtn,.zbtn{cursor:pointer;appearance:none;color:#dce7f4;background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:9px 11px;font-size:13px;font-weight:650;touch-action:manipulation}
-.viewbtn.active{background:#51432c;border-color:#bc9960;color:#ffe2a5}
-.searchwrap{position:relative;min-width:155px;flex:1;max-width:280px}
-.searchwrap input{display:block;width:100%;height:37px;background:#182433;border:1px solid var(--border);border-radius:9px;padding:0 12px;color:white;font-size:13px;outline:none}
-.searchwrap input:focus{border-color:var(--gold)}
-.search-results{position:absolute;left:0;right:0;top:43px;z-index:10;display:none;max-height:220px;overflow-y:auto;border-radius:10px;background:#223145;border:1px solid #576679;box-shadow:0 10px 24px #0008}
-.search-results button{width:100%;display:block;text-align:left;border:0;border-bottom:1px solid #36475b;background:transparent;color:white;padding:10px;font-size:12px;cursor:pointer}
-main{padding:0 max(10px,env(safe-area-inset-right)) 24px max(10px,env(safe-area-inset-left));max-width:1220px;margin:auto}
-.mapframe{position:relative;border:1px solid #344457;background:#0e1925;border-radius:13px;overflow:hidden;height:clamp(470px,71dvh,880px);isolation:isolate}
-#map{display:block;width:100%;height:100%;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
-#map:active{cursor:grabbing}
-#map text{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;pointer-events:none;paint-order:stroke;}
-.city{cursor:pointer;outline:none}
-.city .citybox{stroke-width:.042;stroke:#0b2330}
-.city.active .citybox{stroke:#ffed86;stroke-width:.085}
-.city text{fill:#102233;font-weight:730}
-.city:focus .citybox{stroke:#fff;stroke-width:.10}
-.flag,.trap,.resource,.reserved{cursor:pointer;outline:none}
-.flag:focus,.trap:focus,.resource:focus,.reserved:focus{filter:brightness(1.18)}
-.maptools{position:absolute;right:10px;top:11px;display:grid;gap:6px;z-index:2}
-.zbtn{height:37px;width:37px;display:grid;place-items:center;font-size:22px;padding:0;background:#192536e8;border-color:#536274}
-.maphelp{position:absolute;bottom:12px;left:12px;background:#111e2bdc;border:1px solid #40536a;border-radius:8px;padding:8px 10px;color:#d8e4ef;font-size:11px;pointer-events:none;line-height:1.5}
-.info{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;background:#f3f5f8;color:#152536;border-radius:12px;padding:14px 14px 13px;display:none;box-shadow:0 12px 25px #0006;align-items:center;gap:12px}
-.info.visible{display:flex}
-.info-main{flex:1;min-width:0}.info-title{font-size:15px;line-height:1.45;font-weight:800;overflow-wrap:anywhere}
-.info-pos{font-size:13px;color:#475569;margin-top:4px}
-.info button{border:none;border-radius:8px;background:#223c57;color:#fff;font-weight:700;padding:9px 10px;white-space:nowrap;font-size:12px;cursor:pointer}
-.info .close{background:#e2e8ef;color:#455367;padding:6px 9px;font-size:16px;align-self:flex-start}
-.legend{display:flex;flex-wrap:wrap;gap:10px 15px;margin:13px 2px 0;font-size:11px;color:#b6c4d2;align-items:center}
-.leg{display:flex;align-items:center;gap:6px}.swatch{width:12px;height:12px;border-radius:3px;border:1px solid #7a8a98;flex:none}
-.resourcebar{margin-top:17px;padding:13px 15px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
-.resourcehead{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.resourcehead h2{font-size:14px;margin:0;color:#f1f5f9}.resourcehead span{color:var(--muted);font-size:11px}
-.resource-note{color:#a5b8c9;font-size:11px;line-height:1.6;margin:8px 0}.resourcechips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
-.resourcechips button{background:#1c3a57;border:1px solid #456583;border-radius:7px;padding:7px 10px;font-size:12px;color:#d6e9fc;cursor:pointer}
-.footer{padding:14px 3px;color:#8494a9;font-size:11px;text-align:center}
-@media(max-width:420px){.subline{font-size:11px}.toolbar{gap:7px}.viewbtn{padding:9px 10px}.searchwrap{max-width:none;flex-basis:100%}.mapframe{height:70dvh;min-height:480px}.info{gap:7px}.info button{padding:8px 9px}}
+:root{--bg:#101923;--surface:#182635;--border:#304454;--ink:#f0f6fa;--muted:#a6bbc9;--gold:#eecb83}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+button,input{font:inherit}button{cursor:pointer;touch-action:manipulation}a{color:inherit;text-decoration:none}
+.page{max-width:1100px;margin:0 auto;padding:16px 12px 26px}
+.back{font-size:12px;color:#b5c7d5;text-decoration:none;display:inline-block;padding:5px 0 12px}
+.eyebrow{font-size:10px;letter-spacing:1.8px;color:var(--gold);font-weight:800}
+h1{font-size:clamp(24px,5.7vw,34px);line-height:1.15;margin:5px 0 6px}
+.description{color:var(--muted);font-size:12px;line-height:1.5;margin:0 0 12px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:12px 0}
+.tab,.control{color:#dce9f3;background:#182a3b;border:1px solid #43586b;border-radius:8px;padding:9px 12px;font-size:13px;font-weight:650}
+.tab.active{background:#594727;border-color:#cd9b50;color:#fff0cb}
+.search{min-width:160px;max-width:280px;flex:1;position:relative;margin-left:auto}
+.search input{width:100%;background:#182a3b;border:1px solid #43586b;border-radius:8px;color:white;outline:none;height:38px;padding:0 11px;font-size:13px}
+.search input:focus{border-color:#ddb674}
+.results{display:none;position:absolute;z-index:20;top:43px;left:0;right:0;background:#1d3044;border:1px solid #526d82;border-radius:8px;overflow:auto;max-height:230px;box-shadow:0 15px 28px #0008}
+.results button{display:block;width:100%;background:none;color:#f1f7fb;border:none;border-bottom:1px solid #385069;font-size:13px;text-align:left;padding:10px 12px}
+.frame{position:relative;height:clamp(500px,72dvh,820px);border:1px solid #334c5f;border-radius:10px;background:radial-gradient(ellipse at 50% 45%,#172a3b 0%,#101c2a 76%);overflow:hidden;isolation:isolate}
+svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+svg:active{cursor:grabbing}
+svg text{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;pointer-events:none}
+.map-object{cursor:pointer;outline:none}
+.tile{stroke:#d4e7e7;stroke-opacity:.78;stroke-width:.045;stroke-linejoin:miter}
+.member .tile{fill:#7dcdbf}
+.member text{fill:#142b39;font-weight:750}
+.trap .tile{fill:#b95762;stroke:#ffd0c1;stroke-width:.07}
+.trap text{fill:#fff;font-weight:820}
+.flag .tile{fill:#f1c65e;stroke:#b78739;stroke-width:.05}
+.flag text{fill:#4a310d;font-weight:800}
+.reserved .tile{fill:#263b4d;fill-opacity:.65;stroke:#a5b9ca;stroke-width:.07;stroke-dasharray:.19 .15}
+.reserved text{fill:#c5d5e0}
+.resource .tile{stroke-width:.08}
+.resource[data-kind="鐵礦"] .tile{fill:#789eae;stroke:#c0d6df}
+.resource[data-kind="石礦"] .tile{fill:#868c96;stroke:#d6dee5}
+.resource[data-kind="糧礦"] .tile{fill:#cdbb75;stroke:#f5e3ae}
+.resource text{fill:#102535;font-weight:700}
+.map-object.selected .tile,.map-object:focus-visible .tile{stroke:#fff7ac;stroke-width:.13;stroke-opacity:1}
+.zoomtools{position:absolute;top:10px;right:10px;display:grid;gap:6px;z-index:3}
+.zoomtools button{width:38px;height:38px;background:#1e3043ed;color:#fff;border:1px solid #577085;border-radius:8px;font-size:20px;font-weight:650}
+.tip{position:absolute;bottom:10px;left:10px;background:#0a1723d9;color:#d0e2ed;border:1px solid #3c5267;border-radius:6px;padding:7px 10px;font-size:11px;pointer-events:none;line-height:1.5}
+.popup{position:absolute;bottom:10px;left:10px;right:10px;display:none;align-items:center;gap:9px;background:#eff5f8;color:#142b3b;border:1px solid white;border-radius:10px;box-shadow:0 10px 30px #0008;padding:12px;z-index:4}
+.popup.visible{display:flex}.popup-main{flex:1;min-width:0}.popup-name{font-weight:800;font-size:15px;overflow-wrap:anywhere}.popup-coord{margin-top:3px;color:#4a6478;font-size:13px;font-variant-numeric:tabular-nums}
+.popup button{border:none;background:#294960;color:white;border-radius:7px;padding:9px 11px;font-size:12px;font-weight:750;flex:none}
+.popup .close{background:#dbe5eb;color:#3c5061;font-size:18px;padding:6px 9px;align-self:flex-start}
+.legend{display:flex;gap:9px 16px;flex-wrap:wrap;align-items:center;margin-top:13px;color:#b5c7d6;font-size:11px}
+.item{display:inline-flex;align-items:center;gap:6px}.chip{width:13px;height:13px;background:var(--c);border:1px solid #abc5cf;display:inline-block}
+h2{font-size:14px;margin:18px 0 9px}.mines{display:flex;gap:7px;flex-wrap:wrap}
+.mines button{font-size:12px;background:#1b3546;color:#e1ecf5;border:1px solid #4b687e;border-radius:7px;padding:8px 9px;font-variant-numeric:tabular-nums}
+.caption{color:#849caf;font-size:11px;line-height:1.6;margin:13px 0 0}
+@media(max-width:480px){.page{padding:12px 9px 24px}.search{max-width:none;flex:1 1 100%;margin:0}.toolbar{gap:6px}.frame{height:70dvh;min-height:490px}.popup{gap:7px}.popup button{padding:9px 8px}}
 </style>
 </head>
 <body>
-<header>
-  <a class="back" href="./" aria-label="返回王國資料中心">← 返回王國資料中心</a>
-  <div class="eyebrow">KINGDOM 761 · CAT ALLIANCE</div>
-  <h1>熊陷阱配置圖</h1>
-  <div class="subline">2026.11.15 更新 · <b>89</b> 位成員 · <b>12</b> 面旗子 · <b>2</b> 座熊陷阱 · <b>4</b> 處周邊資源參考點</div>
-  <div class="toolbar">
-    <div class="pills"><button type="button" id="nearBtn" class="viewbtn active">熊區</button><button type="button" id="allBtn" class="viewbtn">全圖</button></div>
-    <div class="searchwrap"><input id="search" type="search" placeholder="搜尋成員名稱" autocomplete="off" aria-label="搜尋成員名稱"><div id="matches" class="search-results"></div></div>
-  </div>
-</header>
-<main>
-  <section class="mapframe" aria-label="可縮放熊陷阱配置地圖">
-    <svg id="map" aria-label="聯盟成員、旗子、陷阱與資源位置" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse"><path d="M 1 0 L 0 0 0 1" fill="none" stroke="#34465a" stroke-width=".023"/></pattern>
-      </defs>
-      <rect x="0" y="0" width="1200" height="1200" fill="#101d2a"/>
-      <rect x="0" y="0" width="1200" height="1200" fill="url(#grid)"/>
-      <g id="objectlayer"></g>
-      <g id="overviewlayer" style="display:none"></g>
-    </svg>
-    <div class="maptools"><button type="button" id="zoomIn" class="zbtn" aria-label="放大地圖">+</button><button type="button" id="zoomOut" class="zbtn" aria-label="縮小地圖">−</button><button type="button" id="recenter" class="zbtn" aria-label="返回熊區中心" style="font-size:17px">⌖</button></div>
-    <div id="help" class="maphelp">拖動地圖 · 雙指縮放 · 點選名字看座標</div>
-    <div id="info" class="info" aria-live="polite"><div class="info-main"><div id="infoName" class="info-title"></div><div id="infoCoord" class="info-pos"></div></div><button id="copyCoord" type="button">複製座標</button><button id="closeInfo" class="close" type="button" aria-label="關閉資訊">×</button></div>
-  </section>
-  <div class="legend" aria-label="地圖圖例">
-    <span class="leg"><span class="swatch" style="background:#82cbb6"></span>熊1 成員</span>
-    <span class="leg"><span class="swatch" style="background:#9ec3e9"></span>熊2 成員</span>
-    <span class="leg"><span class="swatch" style="background:#ceb4e4"></span>彈性位置</span>
-    <span class="leg"><span class="swatch" style="background:#edc49d"></span>暫定</span>
-    <span class="leg"><span class="swatch" style="background:#e7bd64"></span>聯盟旗子</span>
-    <span class="leg"><span class="swatch" style="background:#c75f65"></span>熊陷阱</span>
-    <span class="leg"><span class="swatch" style="background:#5b9cca"></span>資源參考點（待核對）</span>
-  </div>
-  <section class="resourcebar" aria-label="聯盟資源點清單">
-    <div class="resourcehead"><h2>周邊聯盟資源點</h2><span>點座標可定位</span></div><p class="resource-note">以下 4 處座標來自先前的選址參考圖，不包含在本次 CSV 內，尚未在遊戲內重新核實。</p>
-    <div class="resourcechips" id="resources"></div>
-  </section>
-  <div class="footer">CAT · K761 ｜城堡、旗子與熊陷阱依據 2026.11.15 CSV；資源點另依舊選址示意圖標註。</div>
-</main>
+<div class="page">
+<a href="./" class="back">← 返回王國資料中心</a>
+<div class="eyebrow">KINGDOM 761 · CAT ALLIANCE</div>
+<h1>雙熊陷阱配置圖</h1>
+<p class="description">2026.11.15 配置 · 89 位成員 · 12 面旗子 · 2 座熊陷阱 · 6 處資源礦</p>
+<div class="toolbar">
+<button id="all" class="tab active" type="button">全圖</button>
+<button id="bear1" class="tab" type="button">熊1</button>
+<button id="bear2" class="tab" type="button">熊2</button>
+<div class="search"><input type="search" id="search" placeholder="搜尋成員名稱" autocomplete="off" aria-label="搜尋成員名稱"><div id="results" class="results"></div></div>
+</div>
+<div class="frame" id="frame">
+<svg id="map" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CAT 雙熊陷阱與成員配置地圖，可拖曳與雙指縮放"><g id="gridLayer"></g><g id="mapLayer"></g></svg>
+<div class="zoomtools"><button id="zoomIn" aria-label="放大" type="button">+</button><button id="zoomOut" aria-label="縮小" type="button">−</button><button id="reset" aria-label="查看全圖" type="button" style="font-size:16px">⌖</button></div>
+<div id="tip" class="tip">拖曳移動 · 雙指縮放 · 點選方格看座標</div>
+<div id="popup" class="popup" aria-live="polite"><div class="popup-main"><div class="popup-name" id="popName"></div><div class="popup-coord" id="popCoord"></div></div><button id="copy" type="button">複製座標</button><button id="close" class="close" aria-label="關閉" type="button">×</button></div>
+</div>
+<div class="legend">
+<span class="item"><i class="chip" style="--c:#7dcdbf"></i>聯盟成員</span>
+<span class="item"><i class="chip" style="--c:#b95762"></i>熊陷阱（3×3）</span>
+<span class="item"><i class="chip" style="--c:#f1c65e"></i>聯盟旗子</span>
+<span class="item"><i class="chip" style="--c:#263b4d"></i>預留空位</span>
+<span class="item"><i class="chip" style="--c:#789eae"></i>鐵礦</span>
+<span class="item"><i class="chip" style="--c:#868c96"></i>石礦</span>
+<span class="item"><i class="chip" style="--c:#cdbb75"></i>糧礦</span>
+</div>
+<h2>周邊聯盟資源礦</h2>
+<div id="mineList" class="mines"></div>
+<p class="caption">成員、旗子及熊座標：2026.11.15 配置 CSV。資源礦：依據你提供的最新配置圖標註。地圖已上下及左右翻轉，點選後顯示的仍是遊戲原始 X、Y 座標。</p>
+</div>
 <script>
 'use strict';
-const entries=[{"t":"banner","x":732,"y":635,"name":"聯盟旗子 1","id":"1","color":"#f2c34d"},{"t":"banner","x":737,"y":632,"name":"聯盟旗子 2","id":"2","color":"#f2c34d"},{"t":"banner","x":730,"y":631,"name":"聯盟旗子 3","id":"3","color":"#f2c34d"},{"t":"banner","x":739,"y":625,"name":"聯盟旗子 4","id":"4","color":"#f2c34d"},{"t":"banner","x":725,"y":625,"name":"聯盟旗子 5","id":"5","color":"#f2c34d"},{"t":"banner","x":732,"y":625,"name":"聯盟旗子 6","id":"6","color":"#f2c34d"},{"t":"banner","x":738,"y":619,"name":"聯盟旗子 7","id":"7","color":"#f2c34d"},{"t":"banner","x":724,"y":618,"name":"聯盟旗子 8","id":"8","color":"#f2c34d"},{"t":"banner","x":731,"y":618,"name":"聯盟旗子 9","id":"9","color":"#f2c34d"},{"t":"banner","x":737,"y":614,"name":"聯盟旗子 10","id":"10","color":"#f2c34d"},{"t":"banner","x":725,"y":611,"name":"聯盟旗子 11","id":"11","color":"#f2c34d"},{"t":"banner","x":732,"y":611,"name":"聯盟旗子 12","id":"12","color":"#f2c34d"},{"t":"beartrap","x":732,"y":626,"name":"熊陷阱 1","id":"13","color":"#b84f58"},{"t":"beartrap","x":728,"y":614,"name":"熊陷阱 2","id":"14","color":"#b84f58"},{"t":"reserved","x":728,"y":612,"name":"預留空位","id":"16","color":"#dce4eb"},{"t":"city","x":731,"y":629,"name":"李師傅","id":"17","color":"#82cbb6"},{"t":"city","x":727,"y":617,"name":"AAAA鐵支","id":"18","color":"#9ec3e9"},{"t":"city","x":730,"y":625,"name":"761招募活躍華人_Kelvin","id":"19","color":"#82cbb6"},{"t":"city","x":735,"y":624,"name":"猜火車_761招活躍華人","id":"20","color":"#ceb4e4"},{"t":"city","x":731,"y":616,"name":"Noir","id":"21","color":"#9ec3e9"},{"t":"city","x":726,"y":613,"name":"CC_26","id":"22","color":"#9ec3e9"},{"t":"city","x":733,"y":631,"name":"Alice chen","id":"23","color":"#82cbb6"},{"t":"city","x":733,"y":629,"name":"HeyKimmy","id":"24","color":"#82cbb6"},{"t":"city","x":733,"y":624,"name":"A B","id":"25","color":"#82cbb6"},{"t":"city","x":730,"y":612,"name":"Bling","id":"26","color":"#9ec3e9"},{"t":"city","x":733,"y":622,"name":"MR TAICHUNG","id":"27","color":"#82cbb6"},{"t":"city","x":735,"y":628,"name":"師太等等我ʕʘ̅͜ʘ̅ʔ","id":"28","color":"#82cbb6"},{"t":"city","x":735,"y":626,"name":"Jadd","id":"29","color":"#82cbb6"},{"t":"city","x":731,"y":614,"name":"꒰ঌ˚妃妃ᶠᴱᴵ ໒꒱ ˚˙","id":"30","color":"#9ec3e9"},{"t":"city","x":728,"y":627,"name":"MitoAlister","id":"31","color":"#82cbb6"},{"t":"city","x":731,"y":623,"name":"Ray~ 想、好想中頭獎","id":"32","color":"#82cbb6"},{"t":"city","x":737,"y":626,"name":"༺冰臨盛夏༻ ღ ᵀᵂ","id":"33","color":"#82cbb6"},{"t":"city","x":732,"y":620,"name":"o嵬o","id":"34","color":"#82cbb6"},{"t":"city","x":738,"y":620,"name":"3721紀讚美條","id":"35","color":"#edc49d"},{"t":"city","x":730,"y":627,"name":"丘巴卡~Chewy","id":"36","color":"#82cbb6"},{"t":"city","x":728,"y":619,"name":"溫溫˓","id":"37","color":"#9ec3e9"},{"t":"city","x":733,"y":616,"name":"妮妮ᵀᵂ","id":"38","color":"#9ec3e9"},{"t":"city","x":730,"y":621,"name":"憂愁企鵝","id":"39","color":"#82cbb6"},{"t":"city","x":728,"y":625,"name":"༆鐵牛爸༆","id":"40","color":"#82cbb6"},{"t":"city","x":730,"y":619,"name":"Bellalala","id":"41","color":"#ceb4e4"},{"t":"city","x":729,"y":623,"name":"761招募活躍華人@十十止ᴴᴷ","id":"42","color":"#82cbb6"},{"t":"city","x":737,"y":624,"name":"BarcaHK","id":"43","color":"#82cbb6"},{"t":"city","x":726,"y":615,"name":"761招募活躍華人@Luna_","id":"44","color":"#9ec3e9"},{"t":"city","x":731,"y":631,"name":"歐洲小貓@@@ᴮᵉᵗᵗʸ","id":"45","color":"#82cbb6"},{"t":"city","x":734,"y":620,"name":"檸檬氣泡水","id":"46","color":"#82cbb6"},{"t":"city","x":725,"y":617,"name":"最粗的戀人 大盜韓不助","id":"47","color":"#9ec3e9"},{"t":"city","x":727,"y":629,"name":"養蜂人Bee","id":"48","color":"#82cbb6"},{"t":"city","x":728,"y":610,"name":"chang","id":"49","color":"#9ec3e9"},{"t":"city","x":723,"y":616,"name":"JackT","id":"50","color":"#9ec3e9"},{"t":"city","x":726,"y":609,"name":"XOXO","id":"51","color":"#9ec3e9"},{"t":"city","x":722,"y":612,"name":"༺A̶᭄S̶᭄H̶᭄ᴾᴴ༻","id":"52","color":"#9ec3e9"},{"t":"city","x":735,"y":630,"name":"小飛龍Long","id":"53","color":"#82cbb6"},{"t":"city","x":739,"y":622,"name":"深深的坑","id":"54","color":"#82cbb6"},{"t":"city","x":735,"y":632,"name":"KAO","id":"55","color":"#82cbb6"},{"t":"city","x":737,"y":622,"name":"Top Brake","id":"56","color":"#82cbb6"},{"t":"city","x":735,"y":622,"name":"摆烂OuO","id":"57","color":"#82cbb6"},{"t":"city","x":729,"y":629,"name":"Ey疼源拓海","id":"58","color":"#82cbb6"},{"t":"city","x":728,"y":621,"name":"Ting","id":"59","color":"#82cbb6"},{"t":"city","x":730,"y":610,"name":"三歲吃奶嘴","id":"60","color":"#9ec3e9"},{"t":"city","x":724,"y":619,"name":"西歐兔 @@","id":"61","color":"#9ec3e9"},{"t":"city","x":736,"y":620,"name":"大俠愛吃漢堡包","id":"63","color":"#ceb4e4"},{"t":"city","x":726,"y":625,"name":"上帝的手稿","id":"64","color":"#82cbb6"},{"t":"city","x":734,"y":612,"name":"唐伯虎","id":"65","color":"#9ec3e9"},{"t":"city","x":732,"y":612,"name":"艾倫X奧特曼","id":"66","color":"#9ec3e9"},{"t":"city","x":732,"y":609,"name":"Sandy Liu","id":"67","color":"#9ec3e9"},{"t":"city","x":722,"y":614,"name":"黑貓台雞店@@","id":"68","color":"#9ec3e9"},{"t":"city","x":739,"y":626,"name":"嘉義KY","id":"69","color":"#82cbb6"},{"t":"city","x":735,"y":616,"name":"wade蝦米挖桂","id":"70","color":"#82cbb6"},{"t":"city","x":724,"y":612,"name":"Yik 益ᴴᴷ","id":"71","color":"#9ec3e9"},{"t":"city","x":726,"y":627,"name":"Chungkai","id":"72","color":"#82cbb6"},{"t":"city","x":737,"y":630,"name":"無糖綠","id":"73","color":"#82cbb6"},{"t":"city","x":736,"y":612,"name":"561127","id":"74","color":"#9ec3e9"},{"t":"city","x":738,"y":632,"name":"Charles King","id":"75","color":"#82cbb6"},{"t":"city","x":725,"y":623,"name":"AAaaron","id":"76","color":"#82cbb6"},{"t":"city","x":727,"y":623,"name":"石並石並","id":"77","color":"#82cbb6"},{"t":"city","x":729,"y":632,"name":"雲遊四海","id":"78","color":"#82cbb6"},{"t":"city","x":722,"y":618,"name":"哈基米","id":"79","color":"#9ec3e9"},{"t":"city","x":734,"y":618,"name":"熊出沒","id":"80","color":"#82cbb6"},{"t":"city","x":739,"y":628,"name":"李老二","id":"81","color":"#82cbb6"},{"t":"city","x":735,"y":614,"name":"葛～賣啦","id":"82","color":"#9ec3e9"},{"t":"city","x":730,"y":608,"name":"Pilgrim","id":"83","color":"#9ec3e9"},{"t":"city","x":724,"y":621,"name":"Kiwi奇異果","id":"84","color":"#ceb4e4"},{"t":"city","x":727,"y":631,"name":"ᵛᶦᵖWells","id":"85","color":"#82cbb6"},{"t":"city","x":721,"y":616,"name":"Q饅頭","id":"86","color":"#9ec3e9"},{"t":"city","x":733,"y":633,"name":"761招募活躍華人@白白","id":"87","color":"#82cbb6"},{"t":"city","x":731,"y":636,"name":"KooKooYaa~~","id":"88","color":"#82cbb6"},{"t":"city","x":735,"y":634,"name":"wen","id":"89","color":"#82cbb6"},{"t":"city","x":726,"y":611,"name":"哇咧咧","id":"90","color":"#9ec3e9"},{"t":"city","x":733,"y":635,"name":"新手1","id":"91","color":"#82cbb6"},{"t":"city","x":736,"y":618,"name":"貓爺愛吃魚@@","id":"92","color":"#82cbb6"},{"t":"city","x":726,"y":619,"name":"Marroni","id":"93","color":"#ceb4e4"},{"t":"city","x":739,"y":630,"name":"我叫小白兔´･ω･`","id":"94","color":"#82cbb6"},{"t":"city","x":727,"y":633,"name":"#Phantom 牙魁 #","id":"95","color":"#82cbb6"},{"t":"city","x":729,"y":634,"name":"霸總重生","id":"96","color":"#82cbb6"},{"t":"city","x":734,"y":610,"name":"Wel","id":"97","color":"#9ec3e9"},{"t":"city","x":731,"y":633,"name":"珊珊到來","id":"98","color":"#82cbb6"},{"t":"city","x":740,"y":624,"name":"超级无敌巨大裹蒸粽","id":"99","color":"#82cbb6"},{"t":"city","x":728,"y":608,"name":"OneDhy_ChDjlnᴵᴰᴺ","id":"100","color":"#9ec3e9"},{"t":"city","x":729,"y":636,"name":"Dekopin","id":"101","color":"#82cbb6"},{"t":"city","x":726,"y":621,"name":"Fumsek","id":"102","color":"#ceb4e4"},{"t":"city","x":737,"y":616,"name":"Mini lala","id":"103","color":"#ceb4e4"},{"t":"city","x":724,"y":609,"name":"中捅浩旋刃 ᵀᵂ","id":"104","color":"#9ec3e9"},{"t":"city","x":723,"y":623,"name":"伊里野の天空༆","id":"105","color":"#edc49d"},{"t":"city","x":729,"y":617,"name":"白小白","id":"107","color":"#82cbb6"},{"t":"reserved","x":732,"y":618,"name":"預留空位","id":"6605","color":"#dce4eb"},{"t":"resource","x":739,"y":614,"name":"周邊聯盟資源點（參考 1，待核對）","id":"R1","color":"#4a9edd"},{"t":"resource","x":747,"y":625,"name":"周邊聯盟資源點（參考 2，待核對）","id":"R2","color":"#4a9edd"},{"t":"resource","x":749,"y":605,"name":"周邊聯盟資源點（參考 3，待核對）","id":"R3","color":"#4a9edd"},{"t":"resource","x":765,"y":620,"name":"周邊聯盟資源點（參考 4，待核對）","id":"R4","color":"#4a9edd"}];
-const svg=document.getElementById('map'), layer=document.getElementById('objectlayer'), overview=document.getElementById('overviewlayer');
-const info=document.getElementById('info'), infoName=document.getElementById('infoName'), infoCoord=document.getElementById('infoCoord');
-const help=document.getElementById('help');
-const members=entries.filter(o=>o.t==='city'), resources=entries.filter(o=>o.t==='resource');
-let selected=null, mode='near';
-const camera={cx:731,cy:622,scale:27};
-const NS='http://www.w3.org/2000/svg';
-function node(tag,attrs={},parent=null){const n=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,String(v));if(parent)parent.appendChild(n);return n}
-const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
-const graphemes=s=>typeof Intl.Segmenter==='function'?[...new Intl.Segmenter('zh-Hant',{granularity:'grapheme'}).segment(s)].map(o=>o.segment):Array.from(s);
-function textLines(name){
- const parts=graphemes(name);
- const maxW=1.72*100,maxH=1.7;
- for(const fs of [.45,.42,.39,.36,.33,.30,.27,.24,.22,.20,.18]){
-   ctx.font=`750 ${fs*100}px system-ui,sans-serif`;
-   const lines=[];let line='';
-   for(const p of parts){
-     if(line && ctx.measureText(line+p).width>maxW){lines.push(line);line=p}
-     else line+=p;
+// All member names and original X/Y coordinates come from the provided CSV.
+// Resource points come from the supplied annotated reference screenshot.
+const data=[{"type":"banner","x":732,"y":635,"name":"旗1","id":"1"},{"type":"banner","x":737,"y":632,"name":"旗2","id":"2"},{"type":"banner","x":730,"y":631,"name":"旗3","id":"3"},{"type":"banner","x":739,"y":625,"name":"旗4","id":"4"},{"type":"banner","x":725,"y":625,"name":"旗5","id":"5"},{"type":"banner","x":732,"y":625,"name":"旗6","id":"6"},{"type":"banner","x":738,"y":619,"name":"旗7","id":"7"},{"type":"banner","x":724,"y":618,"name":"旗8","id":"8"},{"type":"banner","x":731,"y":618,"name":"旗9","id":"9"},{"type":"banner","x":737,"y":614,"name":"旗10","id":"10"},{"type":"banner","x":725,"y":611,"name":"旗11","id":"11"},{"type":"banner","x":732,"y":611,"name":"旗12","id":"12"},{"type":"beartrap","x":732,"y":626,"name":"熊1","id":"13"},{"type":"beartrap","x":728,"y":614,"name":"熊2","id":"14"},{"type":"obs2","x":728,"y":612,"name":"預留空位","id":"16"},{"type":"city","x":731,"y":629,"name":"李師傅","id":"17"},{"type":"city","x":727,"y":617,"name":"AAAA鐵支","id":"18"},{"type":"city","x":730,"y":625,"name":"761招募活躍華人_Kelvin","id":"19"},{"type":"city","x":735,"y":624,"name":"猜火車_761招活躍華人","id":"20"},{"type":"city","x":731,"y":616,"name":"Noir","id":"21"},{"type":"city","x":726,"y":613,"name":"CC_26","id":"22"},{"type":"city","x":733,"y":631,"name":"Alice chen","id":"23"},{"type":"city","x":733,"y":629,"name":"HeyKimmy","id":"24"},{"type":"city","x":733,"y":624,"name":"A B","id":"25"},{"type":"city","x":730,"y":612,"name":"Bling","id":"26"},{"type":"city","x":733,"y":622,"name":"MR TAICHUNG","id":"27"},{"type":"city","x":735,"y":628,"name":"師太等等我ʕʘ̅͜ʘ̅ʔ","id":"28"},{"type":"city","x":735,"y":626,"name":"Jadd","id":"29"},{"type":"city","x":731,"y":614,"name":"꒰ঌ˚妃妃ᶠᴱᴵ ໒꒱ ˚˙","id":"30"},{"type":"city","x":728,"y":627,"name":"MitoAlister","id":"31"},{"type":"city","x":731,"y":623,"name":"Ray~ 想、好想中頭獎","id":"32"},{"type":"city","x":737,"y":626,"name":"༺冰臨盛夏༻ ღ ᵀᵂ","id":"33"},{"type":"city","x":732,"y":620,"name":"o嵬o","id":"34"},{"type":"city","x":738,"y":620,"name":"3721紀讚美條","id":"35"},{"type":"city","x":730,"y":627,"name":"丘巴卡~Chewy","id":"36"},{"type":"city","x":728,"y":619,"name":"溫溫˓","id":"37"},{"type":"city","x":733,"y":616,"name":"妮妮ᵀᵂ","id":"38"},{"type":"city","x":730,"y":621,"name":"憂愁企鵝","id":"39"},{"type":"city","x":728,"y":625,"name":"༆鐵牛爸༆","id":"40"},{"type":"city","x":730,"y":619,"name":"Bellalala","id":"41"},{"type":"city","x":729,"y":623,"name":"761招募活躍華人@十十止ᴴᴷ","id":"42"},{"type":"city","x":737,"y":624,"name":"BarcaHK","id":"43"},{"type":"city","x":726,"y":615,"name":"761招募活躍華人@Luna_","id":"44"},{"type":"city","x":731,"y":631,"name":"歐洲小貓@@@ᴮᵉᵗᵗʸ","id":"45"},{"type":"city","x":734,"y":620,"name":"檸檬氣泡水","id":"46"},{"type":"city","x":725,"y":617,"name":"最粗的戀人 大盜韓不助","id":"47"},{"type":"city","x":727,"y":629,"name":"養蜂人Bee","id":"48"},{"type":"city","x":728,"y":610,"name":"chang","id":"49"},{"type":"city","x":723,"y":616,"name":"JackT","id":"50"},{"type":"city","x":726,"y":609,"name":"XOXO","id":"51"},{"type":"city","x":722,"y":612,"name":"༺A̶᭄S̶᭄H̶᭄ᴾᴴ༻","id":"52"},{"type":"city","x":735,"y":630,"name":"小飛龍Long","id":"53"},{"type":"city","x":739,"y":622,"name":"深深的坑","id":"54"},{"type":"city","x":735,"y":632,"name":"KAO","id":"55"},{"type":"city","x":737,"y":622,"name":"Top Brake","id":"56"},{"type":"city","x":735,"y":622,"name":"摆烂OuO","id":"57"},{"type":"city","x":729,"y":629,"name":"Ey疼源拓海","id":"58"},{"type":"city","x":728,"y":621,"name":"Ting","id":"59"},{"type":"city","x":730,"y":610,"name":"三歲吃奶嘴","id":"60"},{"type":"city","x":724,"y":619,"name":"西歐兔 @@","id":"61"},{"type":"city","x":736,"y":620,"name":"大俠愛吃漢堡包","id":"63"},{"type":"city","x":726,"y":625,"name":"上帝的手稿","id":"64"},{"type":"city","x":734,"y":612,"name":"唐伯虎","id":"65"},{"type":"city","x":732,"y":612,"name":"艾倫X奧特曼","id":"66"},{"type":"city","x":732,"y":609,"name":"Sandy Liu","id":"67"},{"type":"city","x":722,"y":614,"name":"黑貓台雞店@@","id":"68"},{"type":"city","x":739,"y":626,"name":"嘉義KY","id":"69"},{"type":"city","x":735,"y":616,"name":"wade蝦米挖桂","id":"70"},{"type":"city","x":724,"y":612,"name":"Yik 益ᴴᴷ","id":"71"},{"type":"city","x":726,"y":627,"name":"Chungkai","id":"72"},{"type":"city","x":737,"y":630,"name":"無糖綠","id":"73"},{"type":"city","x":736,"y":612,"name":"561127","id":"74"},{"type":"city","x":738,"y":632,"name":"Charles King","id":"75"},{"type":"city","x":725,"y":623,"name":"AAaaron","id":"76"},{"type":"city","x":727,"y":623,"name":"石並石並","id":"77"},{"type":"city","x":729,"y":632,"name":"雲遊四海","id":"78"},{"type":"city","x":722,"y":618,"name":"哈基米","id":"79"},{"type":"city","x":734,"y":618,"name":"熊出沒","id":"80"},{"type":"city","x":739,"y":628,"name":"李老二","id":"81"},{"type":"city","x":735,"y":614,"name":"葛～賣啦","id":"82"},{"type":"city","x":730,"y":608,"name":"Pilgrim","id":"83"},{"type":"city","x":724,"y":621,"name":"Kiwi奇異果","id":"84"},{"type":"city","x":727,"y":631,"name":"ᵛᶦᵖWells","id":"85"},{"type":"city","x":721,"y":616,"name":"Q饅頭","id":"86"},{"type":"city","x":733,"y":633,"name":"761招募活躍華人@白白","id":"87"},{"type":"city","x":731,"y":636,"name":"KooKooYaa~~","id":"88"},{"type":"city","x":735,"y":634,"name":"wen","id":"89"},{"type":"city","x":726,"y":611,"name":"哇咧咧","id":"90"},{"type":"city","x":733,"y":635,"name":"新手1","id":"91"},{"type":"city","x":736,"y":618,"name":"貓爺愛吃魚@@","id":"92"},{"type":"city","x":726,"y":619,"name":"Marroni","id":"93"},{"type":"city","x":739,"y":630,"name":"我叫小白兔´･ω･`","id":"94"},{"type":"city","x":727,"y":633,"name":"#Phantom 牙魁 #","id":"95"},{"type":"city","x":729,"y":634,"name":"霸總重生","id":"96"},{"type":"city","x":734,"y":610,"name":"Wel","id":"97"},{"type":"city","x":731,"y":633,"name":"珊珊到來","id":"98"},{"type":"city","x":740,"y":624,"name":"超级无敌巨大裹蒸粽","id":"99"},{"type":"city","x":728,"y":608,"name":"OneDhy_ChDjlnᴵᴰᴺ","id":"100"},{"type":"city","x":729,"y":636,"name":"Dekopin","id":"101"},{"type":"city","x":726,"y":621,"name":"Fumsek","id":"102"},{"type":"city","x":737,"y":616,"name":"Mini lala","id":"103"},{"type":"city","x":724,"y":609,"name":"中捅浩旋刃 ᵀᵂ","id":"104"},{"type":"city","x":723,"y":623,"name":"伊里野の天空༆","id":"105"},{"type":"city","x":729,"y":617,"name":"白小白","id":"107"},{"type":"obs2","x":732,"y":618,"name":"預留空位","id":"6605"},{"type":"resource","kind":"鐵礦","x":737,"y":634,"name":"鐵礦 737,634"},{"type":"resource","kind":"鐵礦","x":737,"y":628,"name":"鐵礦 737,628"},{"type":"resource","kind":"鐵礦","x":727,"y":635,"name":"鐵礦 727,635"},{"type":"resource","kind":"石礦","x":739,"y":614,"name":"石礦 739,614"},{"type":"resource","kind":"糧礦","x":719,"y":622,"name":"糧礦 719,622"},{"type":"resource","kind":"糧礦","x":722,"y":610,"name":"糧礦 722,610"}];
+const SVG_NS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('map'),grid=document.getElementById('gridLayer'),layer=document.getElementById('mapLayer');
+const popup=document.getElementById('popup'),tip=document.getElementById('tip');
+const $=id=>document.getElementById(id);
+const state={cx:0,cy:0,scale:10,selected:null};
+const members=data.filter(o=>o.type==='city');
+const mines=data.filter(o=>o.type==='resource');
+const traps=data.filter(o=>o.type==='beartrap');
+const elemById=new Map();
+const ctx=document.createElement('canvas').getContext('2d');
+const rt=Math.SQRT1_2;
+// Both map coordinate axes are reversed; 45° display follows the reference image.
+// Game coordinates in popups are never modified.
+function proj(x,y){return {x:(x-y)*rt,y:-(x+y)*rt};}
+function boxPoints(o){const s=o.type==='beartrap'?3:(o.type==='banner'?1:2);const x=o.x,y=o.y;return [proj(x,y),proj(x+s,y),proj(x+s,y+s),proj(x,y+s)];}
+function bounds(){const pts=data.flatMap(o=>boxPoints(o));const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);return {l:Math.min(...xs),r:Math.max(...xs),t:Math.min(...ys),b:Math.max(...ys)}}
+const fullBounds=bounds();
+function node(tag,attrs,parent){const e=document.createElementNS(SVG_NS,tag);for(const [k,v] of Object.entries(attrs||{}))e.setAttribute(k,String(v));(parent||layer).appendChild(e);return e;}
+function center(o){return proj(o.x+(o.type==='beartrap'?1.5:o.type==='banner'?.5:1),o.y+(o.type==='beartrap'?1.5:o.type==='banner'?.5:1));}
+function readableLines(text,size){
+ const letters=Array.from(text); let best={lines:[text],fs:.16};
+ const maxW=size===1?.9:size===3?2.75:1.9;
+ const maxH=size===1?.85:size===3?1.7:1.25;
+ for(let fs=(size===1?.28:size===3?.56:.37);fs>=.16;fs-=.018){
+   ctx.font=`700 ${fs*100}px sans-serif`;
+   const lines=[];let s='';
+   for(let i=0;i<letters.length;i++){
+      const ch=letters[i],next=s+ch;
+      if(s && ctx.measureText(next).width/100*1.0>maxW){lines.push(s);s=ch}else s=next;
    }
-   if(line)lines.push(line);
-   if(lines.length*fs*1.22<=maxH && lines.every(s=>ctx.measureText(s).width<=maxW*1.02))return {fs,lines};
+   if(s)lines.push(s);
+   if(lines.length<= (size===3?2:size===1?1:3) && lines.length*fs*1.21<=maxH){best={lines,fs};break}
  }
- return {fs:.18,lines:[name]};
+ if(best.lines.length>3){const maxChars=9;best={lines:[text.length>maxChars?text.slice(0,maxChars)+'…':text],fs:.18}}
+ return best;
 }
-function show(o,g){
-  if(selected?.g)selected.g.classList.remove('active');
-  selected={o,g};if(g&&g.classList.contains('city'))g.classList.add('active');
-  infoName.textContent=o.name;infoCoord.textContent=`X: ${o.x}　Y: ${o.y}`;
-  info.classList.add('visible');help.style.display='none';
+function drawGrid(){
+ const minX=713,maxX=746,minY=603,maxY=642;
+ for(let x=minX;x<=maxX;x++){const a=proj(x,minY),b=proj(x,maxY);node('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#344d5e','stroke-width':'.016'},grid)}
+ for(let y=minY;y<=maxY;y++){const a=proj(minX,y),b=proj(maxX,y);node('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#344d5e','stroke-width':'.016'},grid)}
 }
-function clearSelection(){if(selected?.g)selected.g.classList.remove('active');selected=null;info.classList.remove('visible');help.style.display='';}
-function register(g,o){g.__entry=o;g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',`${o.name}，X ${o.x}，Y ${o.y}`);node('title',{},g).textContent=`${o.name} (${o.x}, ${o.y})`;g.addEventListener('click',e=>{e.stopPropagation();show(o,g)});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(o,g)}})}
-function drawMember(o){
-  const g=node('g',{class:'city',transform:`translate(${o.x} ${o.y})`},layer);
-  node('rect',{class:'citybox',x:0,y:0,width:1.84,height:1.84,rx:.18,fill:o.color},g);
-  const txt=textLines(o.name),lineH=txt.fs*1.16,total=(txt.lines.length-1)*lineH;
-  const t=node('text',{'text-anchor':'middle','font-size':txt.fs,'dominant-baseline':'middle'},g);
-  txt.lines.forEach((s,i)=>{const tp=node('tspan',{x:.92,y:.92-total/2+i*lineH},t);tp.textContent=s});
-  register(g,o);
+function draw(o){
+ const g=node('g',{class:`map-object ${o.type==='city'?'member':o.type==='beartrap'?'trap':o.type==='banner'?'flag':o.type==='obs2'?'reserved':'resource'}`,'data-id':o.id||`${o.kind}-${o.x}-${o.y}`,tabindex:0,role:'button','aria-label':`${o.name}，X${o.x} Y${o.y}`},layer);
+ if(o.kind)g.setAttribute('data-kind',o.kind);
+ g.__data=o;
+ const pts=boxPoints(o),c=center(o);node('polygon',{class:'tile',points:pts.map(p=>`${p.x},${p.y}`).join(' ')},g);
+ const lines=o.type==='resource'?[o.kind]:(o.type==='obs2'?['預留']:[o.name]);
+ const size=o.type==='beartrap'?3:(o.type==='banner'?1:2);
+ const display=o.type==='city'?readableLines(o.name,size):{lines,fs:o.type==='beartrap'?.8:o.type==='banner'?.22:o.type==='resource'?.43:.31};
+ const fontSize=display.fs,lineH=fontSize*1.22;
+ const text=node('text',{'text-anchor':'middle','dominant-baseline':'middle','font-size':fontSize},g);
+ display.lines.forEach((line,i)=>{const t=node('tspan',{x:c.x,y:c.y+(i-(display.lines.length-1)/2)*lineH},text);t.textContent=line});
+ const t=node('title',{},g);t.textContent=`${o.name} — X${o.x} Y${o.y}`;
+ elemById.set(o,g);
+ g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(o)}});
+ g.addEventListener('click',e=>{if(dragSuppressed)return;e.stopPropagation();show(o)});
 }
-function drawReserved(o){const g=node('g',{class:'reserved'},layer);node('rect',{x:o.x,y:o.y,width:1.82,height:1.82,rx:.12,fill:'#304052','fill-opacity':'.47',stroke:'#b5c3d2','stroke-width':'.055','stroke-dasharray':'.16 .12'},g);const t=node('text',{x:o.x+.91,y:o.y+.96,'font-size':'.31','text-anchor':'middle',fill:'#d7e0eb'},g);t.textContent='預留空位';register(g,o)}
-function drawTrap(o){const g=node('g',{class:'trap'},layer);node('rect',{x:o.x,y:o.y,width:2.18,height:2.18,rx:.26,fill:'#b84f58',stroke:'#f4b5a6','stroke-width':'.075'},g);const t=node('text',{x:o.x+1.09,y:o.y+1.15,'text-anchor':'middle','font-size':'.42','font-weight':'800',fill:'#fff'},g);t.textContent=o.name.replace('熊陷阱 ','熊');register(g,o)}
-function drawFlag(o){const g=node('g',{class:'flag'},layer);node('circle',{cx:o.x+.32,cy:o.y+.32,r:.29,fill:'#f2c34d',stroke:'#594319','stroke-width':'.06'},g);const t=node('text',{x:o.x+.32,y:o.y+.325,'font-size':'.25','font-weight':'800',fill:'#342608','text-anchor':'middle','dominant-baseline':'middle'},g);t.textContent=o.id;register(g,o)}
-function drawResource(o){const g=node('g',{class:'resource'},layer);node('rect',{x:o.x,y:o.y,width:2.1,height:1.8,rx:.18,fill:'#264b65',stroke:'#8ec8f3','stroke-width':'.09','stroke-dasharray':'.12 .12'},g);const t=node('text',{x:o.x+1.05,y:o.y+.96,'text-anchor':'middle','dominant-baseline':'middle','font-size':'.33','font-weight':'750',fill:'white'},g);t.textContent='資源參考';register(g,o)}
-// Layer order keeps member names readable, and makes flag markers easy to locate.
-entries.filter(o=>o.t==='reserved').forEach(drawReserved);
-entries.filter(o=>o.t==='resource').forEach(drawResource);
-entries.filter(o=>o.t==='beartrap').forEach(drawTrap);
-members.forEach(drawMember);
-entries.filter(o=>o.t==='banner').forEach(drawFlag);
-function renderCamera(){const r=svg.getBoundingClientRect();if(!r.width||!r.height)return;const w=r.width/camera.scale,h=r.height/camera.scale;svg.setAttribute('viewBox',`${camera.cx-w/2} ${camera.cy-h/2} ${w} ${h}`);const over=camera.scale<2;layer.style.display=over?'none':'';overview.style.display=over?'':'none';if(over)drawOverview()}
-const nearBounds={left:719,right:743,top:606,bottom:640};
-function fitBounds(b){const r=svg.getBoundingClientRect();const w=b.right-b.left,h=b.bottom-b.top;camera.cx=(b.left+b.right)/2;camera.cy=(b.top+b.bottom)/2;camera.scale=Math.max(.5,Math.min(100,r.width/w,r.height/h));renderCamera()}
-function goNear(){mode='near';document.getElementById('nearBtn').classList.add('active');document.getElementById('allBtn').classList.remove('active');const r=svg.getBoundingClientRect();camera.scale=Math.min(32,Math.max(19,r.width/15));camera.cx=731;camera.cy=622;renderCamera()}
-function goAll(){mode='all';document.getElementById('allBtn').classList.add('active');document.getElementById('nearBtn').classList.remove('active');fitBounds({left:718,right:744,top:605,bottom:640})}
-function moveTo(o){mode='custom';document.getElementById('nearBtn').classList.remove('active');document.getElementById('allBtn').classList.remove('active');camera.cx=o.x+1;camera.cy=o.y+1;camera.scale=Math.max(camera.scale,25);camera.scale=Math.min(camera.scale,55);renderCamera();let g=[...layer.children].find(n=>n.getAttribute('aria-label')?.startsWith(o.name+'，X '+o.x+'，Y '+o.y));show(o,g||null)}
-function drawOverview(){
-  overview.replaceChildren();
-  const px=16/camera.scale;
-  const main=node('g',{},overview);
-  node('circle',{cx:731,cy:622,r:px*1.25,fill:'#b84f58',stroke:'#fff0cc','stroke-width':px*.08},main);
-  let t=node('text',{x:731,y:622.1,'text-anchor':'middle','dominant-baseline':'middle','font-size':px*.56,'font-weight':'800',fill:'white'},main);t.textContent='熊區';
-  main.style.cursor='pointer';main.addEventListener('click',goNear);
-  resources.forEach(o=>{
-    const g=node('g',{},overview);node('circle',{cx:o.x+.8,cy:o.y+.8,r:px*.75,fill:'#4a9edd',stroke:'#c6e6ff','stroke-width':px*.07},g);
-    const t=node('text',{x:o.x+.8,y:o.y+.9,'text-anchor':'middle','dominant-baseline':'middle','font-size':px*.38,'font-weight':'800',fill:'white'},g);t.textContent='參考';
-    g.style.cursor='pointer';g.addEventListener('click',()=>moveTo(o));
-  });
+function show(o){
+ if(state.selected)elemById.get(state.selected)?.classList.remove('selected');
+ state.selected=o;elemById.get(o)?.classList.add('selected');
+ $('popName').textContent=o.name;
+ $('popCoord').textContent=`X: ${o.x}    Y: ${o.y}`;
+ popup.classList.add('visible');tip.style.display='none';
 }
-function zoom(factor,originX,originY){
- const r=svg.getBoundingClientRect(),old=camera.scale;
- const newS=Math.max(.7,Math.min(95,old*factor));
- const ax=(originX??r.width/2)-r.width/2,ay=(originY??r.height/2)-r.height/2;
- camera.cx+=ax/old-ax/newS;camera.cy+=ay/old-ay/newS;camera.scale=newS;
- renderCamera();
-}
-let pointers=new Map(),startPoints=new Map(),downTargets=new Map(),dragging=false,moved=false,lastMid=null,lastDist=null;
-const point=e=>{const r=svg.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}};
-svg.addEventListener('pointerdown',e=>{
- if(e.pointerType==='mouse'&&e.button!==0)return;
- svg.setPointerCapture(e.pointerId);pointers.set(e.pointerId,point(e));startPoints.set(e.pointerId,point(e));downTargets.set(e.pointerId,e.target.closest?.('g[role=button]')||null);dragging=true;moved=false;
-});
-svg.addEventListener('pointermove',e=>{
- if(!pointers.has(e.pointerId))return;
- const old=pointers.get(e.pointerId),p=point(e);pointers.set(e.pointerId,p);
- const list=[...pointers.values()];
- if(list.length===1){const start=startPoints.get(e.pointerId);if(Math.hypot(p.x-start.x,p.y-start.y)>8)moved=true;if(moved){camera.cx-=(p.x-old.x)/camera.scale;camera.cy-=(p.y-old.y)/camera.scale;renderCamera()}}
- else if(list.length>=2){moved=true;const a=list[0],b=list[1],d=Math.hypot(a.x-b.x,a.y-b.y),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};if(lastDist){zoom(d/lastDist,mid.x,mid.y);camera.cx-=(mid.x-lastMid.x)/camera.scale;camera.cy-=(mid.y-lastMid.y)/camera.scale;renderCamera()}lastDist=d;lastMid=mid}
-});
-function release(e){const hit=downTargets.get(e.pointerId);const isTap=e.type==='pointerup'&&!moved&&pointers.size===1; if(isTap&&hit?.__entry)show(hit.__entry,hit);downTargets.delete(e.pointerId);startPoints.delete(e.pointerId);pointers.delete(e.pointerId);if(pointers.size<2){lastDist=null;lastMid=null}if(!pointers.size){dragging=false;setTimeout(()=>{moved=false},0)}}
-svg.addEventListener('pointerup',release);svg.addEventListener('pointercancel',release);
-svg.addEventListener('wheel',e=>{e.preventDefault();const p=point(e);zoom(e.deltaY<0?1.17:1/1.17,p.x,p.y)},{passive:false});
-svg.addEventListener('click',e=>{if(moved){e.stopPropagation();e.preventDefault()}},{capture:true});
-document.getElementById('zoomIn').onclick=()=>zoom(1.35);
-document.getElementById('zoomOut').onclick=()=>zoom(1/1.35);
-document.getElementById('recenter').onclick=goNear;
-document.getElementById('nearBtn').onclick=goNear;
-document.getElementById('allBtn').onclick=goAll;
-document.getElementById('closeInfo').onclick=clearSelection;
-document.getElementById('copyCoord').onclick=async()=>{
- if(!selected)return;const val=`${selected.o.x},${selected.o.y}`;
- try{await navigator.clipboard.writeText(val)}catch(e){const input=document.createElement('textarea');input.value=val;input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();document.execCommand('copy');input.remove()}
- const btn=document.getElementById('copyCoord');btn.textContent='已複製 ✓';setTimeout(()=>{btn.textContent='複製座標'},1300);
+function hide(){if(state.selected)elemById.get(state.selected)?.classList.remove('selected');state.selected=null;popup.classList.remove('visible');tip.style.display='';}
+function cameraRender(){const r=svg.getBoundingClientRect();if(!r.width||!r.height)return;const w=r.width/state.scale,h=r.height/state.scale;svg.setAttribute('viewBox',`${state.cx-w/2} ${state.cy-h/2} ${w} ${h}`)}
+function fit(box,padding=3.5){const r=svg.getBoundingClientRect();if(!r.width||!r.height)return;state.cx=(box.l+box.r)/2;state.cy=(box.t+box.b)/2;state.scale=Math.max(.5,Math.min(r.width/(box.r-box.l+padding*2),r.height/(box.b-box.t+padding*2)));cameraRender()}
+function tabs(active){for(const id of ['all','bear1','bear2'])$(id).classList.toggle('active',id===active)}
+function goAll(){tabs('all');fit(fullBounds)}
+function goBear(i){tabs('bear'+i);const o=traps.find(t=>t.name==='熊'+i),c=center(o),r=svg.getBoundingClientRect();state.cx=c.x;state.cy=c.y;state.scale=Math.min(60,Math.max(17,r.width/15));cameraRender()}
+function focus(o){tabs(null);const c=center(o),r=svg.getBoundingClientRect();state.cx=c.x;state.cy=c.y;state.scale=Math.min(65,Math.max(state.scale,r.width/11));cameraRender();show(o)}
+function zoom(mult,x,y){const r=svg.getBoundingClientRect(),old=state.scale,next=Math.max(2,Math.min(105,old*mult)),ax=(x??r.width/2)-r.width/2,ay=(y??r.height/2)-r.height/2;state.cx+=ax/old-ax/next;state.cy+=ay/old-ay/next;state.scale=next;cameraRender()}
+// Draw mines beneath members and flags to preserve labels on dense maps.
+drawGrid();
+for(const t of ['resource','obs2','beartrap','city','banner'])data.filter(o=>o.type===t).forEach(draw);
+$('all').onclick=goAll;$('bear1').onclick=()=>goBear(1);$('bear2').onclick=()=>goBear(2);
+$('zoomIn').onclick=()=>zoom(1.3);$('zoomOut').onclick=()=>zoom(1/1.3);$('reset').onclick=goAll;
+$('close').onclick=hide;
+$('copy').onclick=async()=>{
+ if(!state.selected)return;const s=`${state.selected.x},${state.selected.y}`;
+ try{await navigator.clipboard.writeText(s)}catch(e){const a=document.createElement('textarea');a.value=s;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
+ const b=$('copy');b.textContent='已複製 ✓';setTimeout(()=>b.textContent='複製座標',1200)
 };
-const rc=document.getElementById('resources');resources.forEach((o,i)=>{const b=document.createElement('button');b.type='button';b.textContent=`${i+1}. X${o.x} Y${o.y}`;b.addEventListener('click',()=>moveTo(o));rc.appendChild(b)});
-const input=document.getElementById('search'),matches=document.getElementById('matches');
-input.addEventListener('input',()=>{const s=input.value.trim().toLocaleLowerCase();matches.replaceChildren();if(!s){matches.style.display='none';return}const found=members.filter(o=>o.name.toLocaleLowerCase().includes(s)).slice(0,10);matches.style.display=found.length?'block':'none';for(const o of found){const b=document.createElement('button');b.type='button';b.textContent=o.name;b.onclick=()=>{input.value=o.name;matches.style.display='none';moveTo(o)};matches.appendChild(b)}});
-input.addEventListener('keydown',e=>{if(e.key==='Enter'){const first=members.find(o=>o.name.toLocaleLowerCase().includes(input.value.trim().toLocaleLowerCase()));if(first){input.blur();matches.style.display='none';moveTo(first)}}});
-document.addEventListener('click',e=>{if(!e.target.closest('.searchwrap'))matches.style.display='none'});
-new ResizeObserver(()=>renderCamera()).observe(svg);
-requestAnimationFrame(goNear);
+for(const o of mines){const b=document.createElement('button');b.type='button';b.textContent=`${o.kind} ${o.x},${o.y}`;b.onclick=()=>focus(o);$('mineList').appendChild(b)}
+const search=$('search'),results=$('results');
+search.addEventListener('input',()=>{const q=search.value.trim().toLocaleLowerCase();results.replaceChildren();if(!q){results.style.display='none';return}const hits=members.filter(o=>o.name.toLocaleLowerCase().includes(q)).slice(0,12);results.style.display=hits.length?'block':'none';for(const o of hits){const b=document.createElement('button');b.type='button';b.textContent=o.name;b.onclick=()=>{search.value=o.name;results.style.display='none';focus(o)};results.appendChild(b)}});
+search.addEventListener('keydown',e=>{if(e.key==='Enter'){const q=search.value.trim().toLocaleLowerCase();const o=members.find(v=>v.name.toLocaleLowerCase().includes(q));if(o){search.blur();results.style.display='none';focus(o)}}});
+document.addEventListener('click',e=>{if(!e.target.closest('.search'))results.style.display='none'});
+const pointers=new Map();let dragSuppressed=false,lastDist=null,lastMid=null;let downTarget=null;let downAt=null;let wasDragged=false;
+const point=e=>{const r=svg.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}};
+svg.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;const p=point(e);if(pointers.size===0){downTarget=e.target.closest?.('.map-object')||null;downAt=p;wasDragged=false;dragSuppressed=false}pointers.set(e.pointerId,p);if(pointers.size>1){lastDist=null;lastMid=null;wasDragged=true}svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{
+ if(!pointers.has(e.pointerId))return;const p=point(e),old=pointers.get(e.pointerId);pointers.set(e.pointerId,p);
+ if(pointers.size===1){if(downAt&&Math.hypot(p.x-downAt.x,p.y-downAt.y)>6)wasDragged=true;if(wasDragged){state.cx-=(p.x-old.x)/state.scale;state.cy-=(p.y-old.y)/state.scale;cameraRender()}}
+ else{wasDragged=true;const [a,b]=[...pointers.values()],d=Math.hypot(a.x-b.x,a.y-b.y),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};if(lastDist&&lastMid){zoom(d/lastDist,mid.x,mid.y);state.cx-=(mid.x-lastMid.x)/state.scale;state.cy-=(mid.y-lastMid.y)/state.scale;cameraRender()}lastDist=d;lastMid=mid}
+});
+function pointerEnd(e){if(!pointers.has(e.pointerId))return;const canTap=e.type==='pointerup'&&!wasDragged&&pointers.size===1;const target=downTarget;pointers.delete(e.pointerId);if(canTap&&target?.__data)show(target.__data);if(wasDragged){dragSuppressed=true;setTimeout(()=>dragSuppressed=false,90)}if(pointers.size<2){lastDist=null;lastMid=null}if(pointers.size===0){downAt=null;downTarget=null}}
+svg.addEventListener('pointerup',pointerEnd);svg.addEventListener('pointercancel',pointerEnd);
+svg.addEventListener('wheel',e=>{e.preventDefault();const p=point(e);zoom(e.deltaY<0?1.16:1/1.16,p.x,p.y)},{passive:false});
+window.addEventListener('resize',cameraRender);
+requestAnimationFrame(goAll);
 </script>
-</body></html>
+</body>
+</html>
