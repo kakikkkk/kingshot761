@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f8">
+  <meta name="description" content="株式会社DoDoの食材費率・人件費率・合計FL比率を計算。配達代行売上の48%を控除した売上を使用します。">
+  <title>株式会社DoDo FL比率</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d3c48'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='40' font-weight='bold' fill='white' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7f8;
+      --paper: #fff;
+      --ink: #1b303a;
+      --muted: #5c6e76;
+      --line: #e1e7e9;
+      --soft: #f7f9fa;
+      --green: #167466;
+      --green-soft: #edf6f2;
+      --blue: #30577b;
+      --blue-soft: #eff4f9;
+      --error: #ae343b;
+      --error-soft: #fff3f3;
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.65;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; touch-action: manipulation; }
+    button:focus-visible, summary:focus-visible { outline: 3px solid #78a7d0; outline-offset: 4px; }
+    [hidden] { display: none !important; }
+    .page { width: min(100% - 48px, 960px); margin: 0 auto; padding: 48px 0 28px; }
+    .masthead { display: flex; align-items: center; gap: 13px; }
+    .brand-mark { display: grid; place-items: center; flex: 0 0 42px; height: 42px; border-radius: 13px; background: #1d3c48; color: #fff; font-size: 26px; font-weight: 700; line-height: 1; }
+    .brand { font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+    .clear { margin-left: auto; min-height: 42px; padding: 8px 13px; border: 1px solid #d7dfe3; border-radius: 10px; color: var(--muted); background: transparent; font-size: 12px; font-weight: 600; }
+    .clear:hover { background: #eaf0f2; }
+    h1 { margin: 27px 0 5px; font-size: clamp(30px, 5vw, 38px); line-height: 1.3; letter-spacing: .025em; }
+    .intro { margin: 0; font-size: 14px; color: var(--muted); }
+    .rule { display: flex; align-items: flex-start; gap: 9px; margin: 23px 0 24px; padding: 13px 16px; border: 1px solid #dbe5e7; border-radius: 12px; background: #edf2f3; font-size: 13px; }
+    .rule svg { flex: 0 0 18px; margin-top: 2px; }
+    .rule strong { font-weight: 700; }
+    .calculators { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; }
+    .card { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: 0 4px 16px #1b303a03; overflow: hidden; }
+    .card-inner { padding: 25px 25px 22px; }
+    .card-heading { display: flex; align-items: center; gap: 11px; margin-bottom: 5px; }
+    .card-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; color: var(--green); background: var(--green-soft); }
+    .labor .card-icon { color: var(--blue); background: var(--blue-soft); }
+    h2 { margin: 0; font-size: 19px; line-height: 1.4; letter-spacing: .02em; }
+    .card-description { margin: 8px 0 22px; color: var(--muted); font-size: 12px; }
+    .fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 14px; row-gap: 17px; }
+    .field { min-width: 0; }
+    label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 700; }
+    .shared-tag { display: inline-block; vertical-align: 1px; margin-left: 5px; padding: 0 5px; border-radius: 4px; color: var(--green); background: var(--green-soft); font-size: 10px; font-weight: 600; }
+    .input-wrap { position: relative; }
+    input { display: block; width: 100%; min-width: 0; height: 52px; border: 1px solid #d6dfe3; border-radius: 10px; padding: 10px 29px 10px 12px; color: var(--ink); background: #fff; font-size: 18px; font-weight: 500; font-variant-numeric: tabular-nums; outline: none; transition: border-color .15s, box-shadow .15s; }
+    input::placeholder { color: #9aa7ae; font-size: 16px; font-weight: 400; }
+    input:focus { border-color: var(--green); box-shadow: 0 0 0 3px #16746614; }
+    input[aria-invalid="true"] { border-color: var(--error); background: var(--error-soft); }
+    .unit { position: absolute; right: 12px; top: 14px; pointer-events: none; color: var(--muted); font-size: 13px; }
+    .field-error { margin: 5px 0 0; color: var(--error); font-size: 11px; line-height: 1.55; }
+    .field-note { margin: 10px 0 0; font-size: 11px; color: var(--muted); }
+    .shared-sales { margin-top: 20px; padding: 13px 15px; border-radius: 11px; background: var(--soft); }
+    .money-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; min-width: 0; font-size: 12px; }
+    .money-row + .money-row { margin-top: 6px; }
+    .money-row dt { color: var(--muted); }
+    .money-row dd { margin: 0; text-align: right; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .money-row.emphasis { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .money-row.emphasis dt, .money-row.emphasis dd { color: var(--ink); font-weight: 700; }
+    dl { margin: 0; }
+    .shared-connection { margin: 0 0 22px; padding: 13px 15px; border: 1px solid #dce7ee; border-radius: 11px; background: var(--blue-soft); }
+    .shared-connection p { margin: 0; font-size: 11px; color: var(--blue); }
+    .shared-connection .money-row { margin-top: 4px; }
+    .shared-connection .money-row dd { color: var(--blue); font-size: 16px; }
+    .calculate { width: 100%; min-height: 46px; margin-top: 19px; border: 1px solid var(--green); border-radius: 10px; color: #fff; background: var(--green); font-size: 13px; font-weight: 700; }
+    .calculate:hover { background: #106354; }
+    .labor .calculate { border-color: var(--blue); background: var(--blue); }
+    .labor .calculate:hover { background: #244767; }
+    .group-error { margin: 10px 0 0; padding: 9px 11px; border-radius: 8px; color: var(--error); background: var(--error-soft); font-size: 12px; }
+    .card-result { padding: 19px 25px 21px; border-top: 1px solid #e0ece6; background: var(--green-soft); }
+    .labor .card-result { border-color: #e0e8f0; background: var(--blue-soft); }
+    .rate-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .rate-label { font-size: 13px; font-weight: 700; }
+    .rate { color: var(--green); font-size: 35px; font-weight: 700; letter-spacing: -.025em; line-height: 1.4; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .labor .rate { color: var(--blue); }
+    .rate small { margin-left: 3px; font-size: 17px; }
+    .card-result .money-row { margin-top: 8px; }
+    .result-note { margin: 8px 0 0; font-size: 11px; color: var(--muted); }
+    .total { margin-top: 22px; padding: 26px 28px; border: 1px solid #d5e1e4; border-radius: var(--radius); background: #eaf1f2; }
+    .total-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .total-title { font-size: 17px; font-weight: 700; }
+    .total-kicker { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
+    .total .rate { color: #1d3c48; font-size: 48px; }
+    .total .rate small { font-size: 22px; }
+    .total-details { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 19px; padding-top: 17px; border-top: 1px solid #d2dfe2; }
+    .total-details .money-row { display: block; }
+    .total-details .money-row dd { margin-top: 3px; text-align: left; font-size: 18px; }
+    .total-message { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+    .method { margin: 23px 0 0; padding: 0 2px; font-size: 12px; color: var(--muted); }
+    summary { width: fit-content; min-height: 36px; cursor: pointer; font-weight: 600; color: var(--ink); }
+    .method-content { padding: 10px 0 0; }
+    .method-content p { margin: 0 0 9px; }
+    .method-content strong { color: var(--ink); }
+    footer { padding-top: 20px; color: var(--muted); font-size: 10px; text-align: center; }
+    noscript p { padding: 15px; border: 1px solid var(--error); border-radius: 10px; color: var(--error); background: var(--error-soft); }
+    @media (max-width: 680px) {
+      .page { width: min(100% - 32px, 470px); padding-top: 24px; }
+      .brand-mark { width: 36px; flex-basis: 36px; height: 36px; border-radius: 11px; font-size: 23px; }
+      .brand { font-size: 13px; }
+      .clear { min-height: 42px; padding: 7px 10px; font-size: 11px; }
+      h1 { margin-top: 25px; font-size: 32px; }
+      .intro { font-size: 12px; }
+      .rule { margin: 18px 0 18px; padding: 12px 13px; font-size: 11px; }
+      .calculators { grid-template-columns: 1fr; gap: 18px; }
+      .card-inner { padding: 21px 20px 20px; }
+      .fields { column-gap: 12px; row-gap: 16px; }
+      input { padding-left: 10px; font-size: 17px; }
+      .card-result { padding: 17px 20px 19px; }
+      .total { margin-top: 18px; padding: 22px 20px; }
+      .total .rate { font-size: 43px; }
+      .total-details { gap: 15px; }
+      .total-details .money-row dd { font-size: 16px; }
+    }
+    @media (max-width: 360px) {
+      .page { width: calc(100% - 24px); }
+      .card-inner { padding-left: 16px; padding-right: 16px; }
+      .fields { column-gap: 9px; }
+      input { font-size: 16px; }
+      input::placeholder { font-size: 14px; }
+      .total-top { gap: 10px; }
+      .total .rate { font-size: 37px; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="masthead">
+        <div class="brand-mark" aria-hidden="true">D</div>
+        <div class="brand">株式会社DoDo</div>
+        <button class="clear" id="clear-all" type="button">すべてクリア</button>
+      </div>
+      <h1>FL比率</h1>
+      <p class="intro">食材費と人件費を、ひとつのページで。入力すると自動計算します。</p>
+      <div class="rule">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v7M12 6.5v1"/></svg>
+        <span><strong>計算用売上 ＝ 売上 − 配達代行 × 48%</strong><br>食材費率・人件費率ともに、この売上を使います。</span>
+      </div>
+    </header>
+
+    <noscript><p>計算するには、ブラウザのJavaScriptを有効にしてください。</p></noscript>
+
+    <div class="calculators">
+      <section class="card food" aria-labelledby="food-heading">
+        <form id="food-form" novalidate>
+          <div class="card-inner">
+            <div class="card-heading">
+              <span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v6c0 2 6 2 6 0V3M8 3v18M18 3c-3 3-3 8 0 8h1V3h-1Zm1 8v10"/></svg></span>
+              <h2 id="food-heading">食材費</h2>
+            </div>
+            <p class="card-description">食材費Aと不明を合算して計算します。</p>
+            <div class="fields">
+              <div class="field">
+                <label for="food-a">食材費A</label>
+                <div class="input-wrap"><input id="food-a" name="foodA" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="food-a-error"><span class="unit">円</span></div>
+                <p class="field-error" id="food-a-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="food-unknown">不明</label>
+                <div class="input-wrap"><input id="food-unknown" name="foodUnknown" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="food-unknown-error"><span class="unit">円</span></div>
+                <p class="field-error" id="food-unknown-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="sales">売上<span class="shared-tag">共通</span></label>
+                <div class="input-wrap"><input id="sales" name="sales" type="text" inputmode="numeric" autocomplete="off" placeholder="必須" aria-required="true" aria-describedby="sales-error sales-hint"><span class="unit">円</span></div>
+                <p class="field-error" id="sales-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="delivery">配達代行</label>
+                <div class="input-wrap"><input id="delivery" name="delivery" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="delivery-error sales-hint"><span class="unit">円</span></div>
+                <p class="field-error" id="delivery-error" hidden></p>
+              </div>
+            </div>
+            <p class="field-note" id="sales-hint">本部発表の売上と、配達代行の売上を入力してください。</p>
+            <div class="shared-sales">
+              <dl>
+                <div class="money-row"><dt>配達代行控除（48%）</dt><dd id="delivery-deduction">— 円</dd></div>
+                <div class="money-row emphasis"><dt>計算用売上</dt><dd id="net-sales">— 円</dd></div>
+              </dl>
+            </div>
+            <button class="calculate" type="submit">食材費率を計算</button>
+            <p class="group-error" id="food-error" role="alert" hidden></p>
+          </div>
+          <div class="card-result" aria-live="polite" aria-atomic="true">
+            <div class="rate-row"><span class="rate-label">食材費率</span><output class="rate" id="food-rate" for="food-a food-unknown sales delivery">—<small>%</small></output></div>
+            <dl><div class="money-row"><dt>食材費合計</dt><dd id="food-total">— 円</dd></div></dl>
+          </div>
+        </form>
+      </section>
+
+      <section class="card labor" aria-labelledby="labor-heading">
+        <form id="labor-form" novalidate>
+          <div class="card-inner">
+            <div class="card-heading">
+              <span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M17 13a5 5 0 0 1 4 5v3"/></svg></span>
+              <h2 id="labor-heading">人件費</h2>
+            </div>
+            <p class="card-description">実績人件費と社員諸費を合算して計算します。</p>
+            <div class="shared-connection">
+              <p>食材費欄の「売上・配達代行」を共用</p>
+              <dl><div class="money-row"><dt>計算用売上</dt><dd id="labor-sales">— 円</dd></div></dl>
+            </div>
+            <div class="fields">
+              <div class="field">
+                <label for="labor-actual">実績人件費</label>
+                <div class="input-wrap"><input id="labor-actual" name="laborActual" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="labor-actual-error"><span class="unit">円</span></div>
+                <p class="field-error" id="labor-actual-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="labor-extra">社員諸費</label>
+                <div class="input-wrap"><input id="labor-extra" name="laborExtra" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="labor-extra-error labor-extra-hint"><span class="unit">円</span></div>
+                <p class="field-error" id="labor-extra-error" hidden></p>
+              </div>
+            </div>
+            <p class="field-note" id="labor-extra-hint">社員諸費には、会社負担の社会保険料などを入力してください。</p>
+            <button class="calculate" type="submit">人件費率を計算</button>
+            <p class="group-error" id="labor-error" role="alert" hidden></p>
+          </div>
+          <div class="card-result" aria-live="polite" aria-atomic="true">
+            <div class="rate-row"><span class="rate-label">人件費率</span><output class="rate" id="labor-rate" for="labor-actual labor-extra sales delivery">—<small>%</small></output></div>
+            <dl><div class="money-row"><dt>人件費合計</dt><dd id="labor-total">— 円</dd></div></dl>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="total" aria-labelledby="total-heading" aria-live="polite" aria-atomic="true">
+      <div class="total-top">
+        <div><h2 class="total-title" id="total-heading">合計FL比率</h2><p class="total-kicker">食材費率 ＋ 人件費率</p></div>
+        <output class="rate" id="fl-rate" for="food-a food-unknown labor-actual labor-extra sales delivery">—<small>%</small></output>
+      </div>
+      <div class="total-details">
+        <dl><div class="money-row"><dt>食材費 ＋ 人件費</dt><dd id="combined-cost">— 円</dd></div></dl>
+        <dl><div class="money-row"><dt>計算用売上</dt><dd id="combined-sales">— 円</dd></div></dl>
+      </div>
+      <p class="total-message" id="total-message">食材費と人件費の両方を入力すると、合計FL比率を表示します。</p>
+    </section>
+
+    <details class="method">
+      <summary>計算方法・入力について</summary>
+      <div class="method-content">
+        <p><strong>計算用売上</strong> ＝ 売上 − 配達代行 × 0.48</p>
+        <p><strong>食材費率</strong> ＝（食材費A ＋ 不明）÷ 計算用売上 × 100</p>
+        <p><strong>人件費率</strong> ＝（実績人件費 ＋ 社員諸費）÷ 計算用売上 × 100</p>
+        <p><strong>合計FL比率</strong> ＝（食材費A ＋ 不明 ＋ 実績人件費 ＋ 社員諸費）÷ 計算用売上 × 100</p>
+        <p>金額は0以上の整数（円）で入力してください。カンマ・全角数字にも対応しています。売上は必須です。配達代行と各費用の空欄は0円として計算します。ただし、計算する費用は2項目のうち少なくとも一方に入力が必要です。0円の場合は「0」と入力してください。</p>
+        <p>人件費だけ計算する場合も、食材費欄の「売上」を入力してください。食材費Aと不明は空欄のままで使えます。</p>
+        <p>比率は小数点以下2桁に丸めて表示します。合計FL比率は、丸める前の金額から計算します。</p>
+        <p>このページは配達代行控除後の売上を使った社内管理用の計算です。売上と費用の対象期間・税込／税抜の扱いを揃えて入力してください。</p>
+      </div>
+    </details>
+    <footer>株式会社DoDo · 入力内容は送信・保存されません。</footer>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+      const $ = (id) => document.getElementById(id);
+      const ids = ['food-a', 'food-unknown', 'sales', 'delivery', 'labor-actual', 'labor-extra'];
+      const fields = Object.fromEntries(ids.map((id) => [id, $(id)]));
+      const state = { foodAttempted: false, laborAttempted: false };
+      const moneyFormat = new Intl.NumberFormat('ja-JP', { maximumFractionDigits: 2 });
+      const money = (amount) => amount == null ? '— 円' : moneyFormat.format(amount) + ' 円';
+      const normalize = (value) => value.normalize('NFKC').replace(/[,\s¥￥円]/g, '');
+
+      function readField(id) {
+        const raw = normalize(fields[id].value);
+        if (raw === '') return { value: 0, empty: true, error: '' };
+        if (!/^\d+$/.test(raw)) return { value: 0, empty: false, error: '0以上の整数で入力してください。' };
+        const value = Number(raw);
+        if (!Number.isSafeInteger(value) || value > 999999999999) {
+          return { value: 0, empty: false, error: '金額は12桁以内で入力してください。' };
+        }
+        return { value, empty: false, error: '' };
+      }
+
+      function setError(id, message) {
+        const target = $(id);
+        target.textContent = message;
+        target.hidden = !message;
+      }
+
+      function setRate(id, value) {
+        const output = $(id);
+        const text = value == null ? '—' : value.toFixed(2);
+        output.replaceChildren(document.createTextNode(text));
+        const unit = document.createElement('small');
+        unit.textContent = '%';
+        output.appendChild(unit);
+      }
+
+      function calculate() {
+        const values = Object.fromEntries(ids.map((id) => [id, readField(id)]));
+        const anyFood = !values['food-a'].empty || !values['food-unknown'].empty;
+        const anyLabor = !values['labor-actual'].empty || !values['labor-extra'].empty;
+        const showSalesRequired = state.foodAttempted || state.laborAttempted || anyLabor;
+
+        if (!values.sales.error && values.sales.empty && showSalesRequired) {
+          values.sales.error = '共通の売上を入力してください。';
+        } else if (!values.sales.error && !values.sales.empty && values.sales.value <= 0) {
+          values.sales.error = '売上は1円以上で入力してください。';
+        }
+        if (!values.delivery.error && !values.sales.error && !values.sales.empty && values.delivery.value > values.sales.value) {
+          values.delivery.error = '配達代行は売上以下の金額を入力してください。';
+        }
+        ids.forEach((id) => {
+          setError(id + '-error', values[id].error);
+          fields[id].setAttribute('aria-invalid', values[id].error ? 'true' : 'false');
+        });
+
+        const baseValid = !values.sales.empty && !values.sales.error && !values.delivery.error && values.sales.value > 0;
+        // Keep the 48% deduction exact to 0.01 yen for integer-yen inputs.
+        const netSales = baseValid ? (values.sales.value * 100 - values.delivery.value * 48) / 100 : null;
+        const deduction = baseValid ? values.delivery.value * 48 / 100 : null;
+        $('delivery-deduction').textContent = money(deduction);
+        ['net-sales', 'labor-sales', 'combined-sales'].forEach((id) => { $(id).textContent = money(netSales); });
+
+        const foodValuesValid = !values['food-a'].error && !values['food-unknown'].error;
+        const laborValuesValid = !values['labor-actual'].error && !values['labor-extra'].error;
+        const foodTotal = anyFood && foodValuesValid ? values['food-a'].value + values['food-unknown'].value : null;
+        const laborTotal = anyLabor && laborValuesValid ? values['labor-actual'].value + values['labor-extra'].value : null;
+        const foodValid = foodTotal != null && baseValid;
+        const laborValid = laborTotal != null && baseValid;
+        $('food-total').textContent = money(foodTotal);
+        $('labor-total').textContent = money(laborTotal);
+        setRate('food-rate', foodValid ? foodTotal / netSales * 100 : null);
+        setRate('labor-rate', laborValid ? laborTotal / netSales * 100 : null);
+
+        let foodError = '';
+        if (state.foodAttempted || anyFood) {
+          if (values.sales.empty && state.foodAttempted) foodError = '「売上」を入力してください。';
+          else if (values.sales.error || values.delivery.error) foodError = '売上・配達代行の入力内容を確認してください。';
+          else if (!foodValuesValid) foodError = '食材費の入力内容を確認してください。';
+          else if (!anyFood && state.foodAttempted) foodError = '食材費Aまたは不明を入力してください。';
+        }
+        let laborError = '';
+        if (state.laborAttempted || anyLabor) {
+          if (values.sales.empty) laborError = '食材費欄の「売上」を入力してください。';
+          else if (values.sales.error || values.delivery.error) laborError = '食材費欄の売上・配達代行を確認してください。';
+          else if (!laborValuesValid) laborError = '人件費の入力内容を確認してください。';
+          else if (!anyLabor && state.laborAttempted) laborError = '実績人件費または社員諸費を入力してください。';
+        }
+        setError('food-error', foodError);
+        setError('labor-error', laborError);
+
+        const combinedValid = foodValid && laborValid;
+        setRate('fl-rate', combinedValid ? (foodTotal + laborTotal) / netSales * 100 : null);
+        $('combined-cost').textContent = money(combinedValid ? foodTotal + laborTotal : null);
+        $('total-message').textContent = combinedValid
+          ? '配達代行売上の48%を控除した売上に対する、食材費と人件費の合計割合です。'
+          : '食材費と人件費の両方を入力すると、合計FL比率を表示します。';
+      }
+
+      ids.forEach((id) => {
+        fields[id].addEventListener('input', calculate);
+        fields[id].addEventListener('blur', () => {
+          const entry = readField(id);
+          if (!entry.empty && !entry.error) fields[id].value = moneyFormat.format(entry.value);
+          calculate();
+        });
+      });
+
+      function handleSubmit(kind) {
+        return (event) => {
+          event.preventDefault();
+          state[kind + 'Attempted'] = true;
+          calculate();
+          const ownIds = kind === 'food' ? ['food-a', 'food-unknown'] : ['labor-actual', 'labor-extra'];
+          const invalidId = ['sales', 'delivery', ...ownIds].find((id) => fields[id].getAttribute('aria-invalid') === 'true');
+          if (invalidId) fields[invalidId].focus();
+          else if (ownIds.every((id) => readField(id).empty)) fields[ownIds[0]].focus();
+        };
+      }
+      $('food-form').addEventListener('submit', handleSubmit('food'));
+      $('labor-form').addEventListener('submit', handleSubmit('labor'));
+      $('clear-all').addEventListener('click', () => {
+        ids.forEach((id) => { fields[id].value = ''; });
+        state.foodAttempted = false;
+        state.laborAttempted = false;
+        calculate();
+      });
+      calculate();
+    })();
+  </script>
+</body>
+</html>
